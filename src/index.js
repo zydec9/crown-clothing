@@ -22,7 +22,7 @@ root.render(
           </CartProvider>
         </ProductsProvider>
       </UserProvider>
-    </BrowserRouter>,
+    </BrowserRouter>
   </React.StrictMode>
 );
 
