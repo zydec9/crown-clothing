@@ -16,7 +16,7 @@ import { ReactComponent as CrwnLogo } from '../../assets/crown.svg'
 
 
 
-import './navigation.styles.scss'
+import {NavigationContainer, NavLinks, NavLink, LogoContainer} from './navigation.styles'
 
 
 
@@ -32,16 +32,16 @@ const Navigation = () => {
 
   return (
     <Fragment>
-      <div className='navigation'>
+    <NavigationContainer>
 
-        <Link className='logo-container' to='/'>
+        <LogoContainer to='/'>
           <CrwnLogo className='logo' />
-        </Link>
+        </LogoContainer>
 
-        <div className='nav-links-container'>
-          <Link className='nav-link' to='/shop'>
+        <NavLinks>
+          <NavLink to='/shop'>
             SHOP
-          </Link>
+          </NavLink>
 
 
           {
@@ -55,10 +55,10 @@ const Navigation = () => {
           <CartIcon />
 
 
-        </div>
+        </NavLinks>
         {isCartOpen && <CartDropdown />}
 
-      </div>
+      </NavigationContainer>
       <Outlet />
     </Fragment>
   )

@@ -3,7 +3,7 @@ import { useContext, useEffect } from 'react'
 
 import CheckoutItem from '../../components/checkout-item/checkout-item.component'
 
-import './checkout.styles.scss'
+import {CheckoutContainer} from './checkout.styles'
 
 
 const Checkout = () => {
@@ -17,7 +17,7 @@ const Checkout = () => {
 
 
     return (
-        <div className='checkout-container'>
+        <CheckoutContainer>
             <div className='checkout-header'>
                 <div className='header-block'>
                     <span>Product</span>
@@ -40,7 +40,7 @@ const Checkout = () => {
         )}
 
 <span className='total'>Total: ${cartTotal}</span>
-        </div>
+        </CheckoutContainer>
     )
 }
 
