@@ -8,13 +8,17 @@ import {
     signInWithEmailAndPassword,
     signOut,
     onAuthStateChanged
-    
+
 } from 'firebase/auth'
 import {
     getFirestore,
     doc,
     getDoc,
-    setDoc
+    setDoc,
+    collection,
+    writeBatch,
+    query,
+    getDocs
 } from 'firebase/firestore'
 import { useContext } from 'react';
 
@@ -42,10 +46,57 @@ export const signInWithGoogleRedirect = () => signInWithRedirect(auth, googlePro
 
 export const db = getFirestore()
 
+
+// upload the categories from SHOP_DATA to the respective collection in firestore
+
+export const addCollectionAndDocuments = async (
+    collectionKey,
+    objectsToAdd,
+    field = 'title'
+) => {
+
+    // collection method allows to create a collection reference 
+    //(the same way we created a user (document)reference (userDocRef))
+    const collectionRef = collection(db, collectionKey)
+
+    // to make sure that ALL the object we want to add to the collection are succefully added
+    // and to do that we need to use a batch
+    const batch = writeBatch(db)
+
+    objectsToAdd.forEach((object) => {
+        const docRef = doc(collectionRef, object[field].toLowerCase())
+        batch.set(docRef, object)
+    })
+
+    await batch.commit()
+    console.log('done')
+}
+
+//retrieve the data
+
+export const getCategoriesAndDocuments = async () => {
+    const collectionRef = collection(db, 'categories')
+    const q = query(collectionRef)
+
+    const querySnapshot = await getDocs(q)
+
+   const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
+const {title, items} = docSnapshot.data()
+ acc[title.toLowerCase()] = items
+ return acc
+
+
+   }, {})
+
+   return categoryMap
+
+}
+
+
 export const createUserDocumentFromAuth = async (
-    userAuth, additionalInformation={}
-    ) => {
-    if(!userAuth) return 
+    userAuth, additionalInformation = {}
+) => {
+    if (!userAuth) return
 
     const userDocRef = doc(db, 'users', userAuth.uid)
 
@@ -72,21 +123,22 @@ export const createUserDocumentFromAuth = async (
 }
 
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
-  
-    if(!email || !password)return
 
-   return await createUserWithEmailAndPassword(auth, email, password)
+    if (!email || !password) return
+
+    return await createUserWithEmailAndPassword(auth, email, password)
 
 }
 
 
 export const signInAuthUserWithEmailAndPassword = async (email, password) => {
-    if(!email || !password)return
+    if (!email || !password) return
 
     return await signInWithEmailAndPassword(auth, email, password)
 }
 
-export const signOutUser = async() => await signOut(auth)
+export const signOutUser = async () => await signOut(auth)
 
 export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth, callback)
+
 

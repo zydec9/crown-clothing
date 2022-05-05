@@ -6,7 +6,7 @@ import { Outlet, Link } from 'react-router-dom'
 import CartIcon from '../../components/cart-icon/cart-icon.component'
 import CartDropdown from '../../components/cart-dropdown/cart-dropdown.component'
 
-import { ProductsContext } from '../../contexts/products.context'
+
 import { CartContext } from '../../contexts/cart.context.component'
 
 import { UserContext } from '../../contexts/user.context'
@@ -24,7 +24,7 @@ const Navigation = () => {
 
 
   const { currentUser, } = useContext(UserContext)
-  const { products } = useContext(ProductsContext)
+ 
   const { isCartOpen } = useContext(CartContext)
 
 
