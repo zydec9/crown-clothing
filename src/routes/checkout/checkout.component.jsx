@@ -1,5 +1,8 @@
-import { CartContext } from '../../contexts/cart.context.component'
-import { useContext, useEffect } from 'react'
+import { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { selectCartItems, selectCartTotal, selectIsCartOpen } from '../../store/cart/cart.selector'
+import { setIsCartOpen } from '../../store/cart/cart.action'
+
 
 import CheckoutItem from '../../components/checkout-item/checkout-item.component'
 
@@ -7,12 +10,16 @@ import {CheckoutContainer} from './checkout.styles'
 
 
 const Checkout = () => {
-    const { isCartOpen, setIsCartOpen, cartItems, cartTotal } = useContext(CartContext)
+    const dispatch = useDispatch()
+ 
+    const cartItems = useSelector(selectCartItems)
+    const cartTotal = useSelector(selectCartTotal)
+    const isCartOpen = useSelector(selectIsCartOpen)
 
-
+// I add this effect to close the dropdown when checkout is opening
     useEffect(() => {
         if (isCartOpen)
-            setIsCartOpen(!isCartOpen)
+            dispatch(setIsCartOpen(!isCartOpen))
     }, [])
 
 

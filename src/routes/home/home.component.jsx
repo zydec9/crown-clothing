@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 
 import Directory from "../../components/directory/directory.component";
-import Category from "../category/category.component";
+
 
 
 
